@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+</head>
+<body onload="refresh()">
+  <h1>Return page</h1>
+  <!-- <button class="button" type="submit" onclick="refresh()">Get refresh token</button> -->
+
+  <div id="refreshhtml">Refresh token: </div><br><br>
+  <h4>Remember to save the refresh token on a safe place </h4> <br><br>
+  <div id="responseText">Response: </div>
+
+
+  <script type="text/javascript">
+  function refresh(){
+    url = document.URL;
+    var n_init = url.search("code=") + 5 ;
+    var n_end = url.search("scope=");
+
+    var code = url.substr(n_init, n_end - n_init - 1);
+    console.log(code);
+
+    var xhttp = new XMLHttpRequest();
+    var url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+    xhttp.open("POST", url , false);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("Authorization", "Basic QVZVYTR4ZzB0VTJoWDdKZEtoZjJjTTVxT054OFBEckF3MWpvRU5jSFJqbFpFNnZVNkpGdWZmaTVDRF9sZ2JpdnBJNHNtYzlXRDZTU0luMm86RUtkS21YOEtkQ2tVOW9Da29WMEJkczlFcTFpTTV4WmNsWGVLTm9tR0RHSDdLUktIY3JIM2J6TVE0ZkYtWFlTdzVNMXp2bGdZdUJFS1gzS0k=");
+    xhttp.setRequestHeader("Accept", "application/json");
+    var req = "grant_type=authorization_code&content_type=application%2Fx-www-form-urlencoded&code="+ code +"&redirect_uri+=https%3A%2F%2Ftiendaejemplomx.com%2Fjerry%2Findex.html";
+    xhttp.send(req);
+    var response = JSON.parse(xhttp.responseText);
+    console.log(response);
+    var oresponse = JSON.stringify(response);
+    document.getElementById('responseText').innerHTML += oresponse;
+    var r_init = oresponse.search("refresh_token") + 16 ;
+    var refresh =  oresponse.substr(r_init, r_init + 149);
+    document.getElementById('refreshhtml').innerHTML += refresh;
+
+  }
+  </script>
+  <!-- <button onclick="refresh()">refresh</button>
+  <script>
+    function refresh() {
+      url = window.location.href ;
+      console.log(url):
+      alert(url);
+
+
+      //
+
+
+      // // xhttp.setRequestHeader("grant_type", "authorization_code");
+      // // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      // // xhttp.setRequestHeader("code", code );
+      // // xhttp.setRequestHeader("redirect_url", "https://tiendaejemplomx.com/jerry/index.html");
+      // var req = "grant_type=authorization_code&content_type=application%2Fx-www-form-urlencoded&code="+ code +"&redirect_uri+=https%3A%2F%2Ftiendaejemplomx.com%2Fjerry%2Findex.html"
+      // xhttp.send(JSON.stringify(req));
+      // var response = JSON.parse(xhttp.responseText);
+      // var oresponse = JSON.stringify(response);
+      // document.getElementById('responseText').innerHTML += oresponse;
+
+    }
+  </script> -->
+</body>
+</html>
